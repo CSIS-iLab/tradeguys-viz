@@ -1,21 +1,21 @@
 import './scss/main.scss'
 import { extent } from 'd3-array'
 import { format } from 'd3-format'
-import { polyfill } from 'es6-promise'
-polyfill()
-import { fetch as fetchPolyfill } from 'whatwg-fetch'
+import * as d3Fetch from 'd3-fetch'
 
 import chart from './js/chart'
-const spreadsheetID = '1qmhbztaMBKatqZkT4dQQsEm_j2Xl5d9Mp3zKmmdrqy4'
-const URL = `https://spreadsheets.google.com/feeds/list/${spreadsheetID}/1/public/values?alt=json`
+const dataSrc = './data/data.csv'
 
 let data
 
 function loadData() {
-  fetchPolyfill(URL)
-    .then(resp => resp.json())
-    .then(json => {
-      data = parseData(json.feed.entry)
+  const dataPromise = d3Fetch.csv(dataSrc)
+  let result = Promise.all([dataPromise])
+    .then(res => {
+      const [dataResponse] = res
+
+      data = dataResponse
+      return
     })
     .then(() => {
       let minMax = extent(data, function(d) {
@@ -28,20 +28,6 @@ function loadData() {
         '$' + format(',.0f')(minMax[1]).replace(/G/, 'B')
       chart.init(data)
     })
-}
-
-function parseData(rawData) {
-  return rawData.map(r => {
-    let row = r
-    let stateData = {}
-    Object.keys(row).forEach(c => {
-      let column = c
-      if (column.indexOf('gsx$') > -1) {
-        stateData[column.replace('gsx$', '')] = row[column]['$t']
-      }
-    })
-    return stateData
-  })
 }
 
 loadData()

@@ -74,6 +74,10 @@ module.exports = {
         from: './src/img/favicon.ico',
         to: './img/favicon.ico',
         toType: 'file'
+      },
+      {
+        from: './src/data',
+        to: './data'
       }
     ]),
     new MiniCssExtractPlugin({
