@@ -2,7 +2,8 @@
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -49,10 +50,12 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
+      new TerserPlugin({
         parallel: true,
-        sourceMap: true
+        cache: true, // v1 supports cache
+        terserOptions: {
+          output: { comments: false }
+        }
       }),
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {
@@ -84,10 +87,8 @@ module.exports = {
       filename: '[name].[contenthash].css'
     }),
     new HtmlWebpackPlugin({
-      inject: false,
-      hash: true,
-      template: './src/index.html',
-      filename: 'index.html'
+      template: 'src/index.html',
+      inject: 'body'
     }),
     new webpack.HotModuleReplacementPlugin(),
     new StyleLintPlugin({
