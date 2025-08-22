@@ -89,11 +89,6 @@ module.exports = {
       template: 'src/index.html',
       inject: 'body'
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    // new StyleLintPlugin({
-    //   configFile: './stylelint.config.js',
-    //   files: './src/scss/*.scss',
-    //   syntax: 'scss'
-    // })
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
