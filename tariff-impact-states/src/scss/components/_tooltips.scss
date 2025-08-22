@@ -1,6 +1,8 @@
 /*================================
 =            Tooltips            =
 ================================*/
+@use 'base/mixins' as *;
+@use 'base/variables' as *;
 
 .tooltip,
 .tooltip-info {

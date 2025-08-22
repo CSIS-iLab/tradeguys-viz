@@ -44,7 +44,17 @@ module.exports = {
           process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
           { loader: 'css-loader', options: { importLoaders: 1 } },
           'postcss-loader',
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              // if you're using sass-embedded, keep `implementation` too; works either way
+              // implementation: require('sass-embedded'),
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/scss')]
+                //loadPaths: [path.resolve(__dirname, 'src/scss')],
+              }
+            }
+          }
         ],
       },
       {
