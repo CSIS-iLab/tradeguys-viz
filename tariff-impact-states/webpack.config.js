@@ -2,11 +2,10 @@
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const webpack = require('webpack')
 const devMode = process.env.NODE_ENV !== 'production'
@@ -66,7 +65,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin('dist', {}),
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       {
         from: './src/img/TradeGuys_menu_logo.svg',
