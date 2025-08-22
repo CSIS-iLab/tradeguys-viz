@@ -1,5 +1,6 @@
 module.exports = {
   extends: ['stylelint-config-recommended'],
+  customSyntax: 'postcss-scss',
   rules: {
     'color-no-invalid-hex': true,
     'font-family-no-duplicate-names': true,
