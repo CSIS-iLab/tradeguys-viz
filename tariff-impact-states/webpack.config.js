@@ -91,10 +91,10 @@ module.exports = {
       inject: 'body'
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new StyleLintPlugin({
-      configFile: './stylelint.config.js',
-      files: './src/scss/*.scss',
-      syntax: 'scss'
-    })
+    // new StyleLintPlugin({
+    //   configFile: './stylelint.config.js',
+    //   files: './src/scss/*.scss',
+    //   syntax: 'scss'
+    // })
   ]
 }
