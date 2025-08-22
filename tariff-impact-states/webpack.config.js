@@ -66,22 +66,22 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: './src/img/TradeGuys_menu_logo.svg',
-        to: './img/TradeGuys_menu_logo.svg',
-        toType: 'file'
-      },
-      {
-        from: './src/img/favicon.ico',
-        to: './img/favicon.ico',
-        toType: 'file'
-      },
-      {
-        from: './src/data',
-        to: './data'
-      }
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/img/TradeGuys_menu_logo.svg',
+          to: 'img/TradeGuys_menu_logo.svg'
+        },
+        {
+          from: 'src/img/favicon.ico',
+          to: 'img/favicon.ico'
+        },
+        {
+          from: 'src/data',
+          to: 'data'
+        }
+      ]
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
