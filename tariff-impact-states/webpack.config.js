@@ -3,7 +3,7 @@ const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
@@ -18,10 +18,16 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './src',
-    open: true,
-    watchContentBase: true,
-    hot: true
+    static: { directory: path.resolve(__dirname, 'public') },
+    historyApiFallback: true,
+    hot: true,
+    port: 8080,
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true
+      }
+    }
   },
   module: {
     rules: [
@@ -33,35 +39,37 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg|eot|woff|woff2|ttf)$/,
-        loader: 'file-loader'
+        test: /\.(css|scss)$/,
+        use: [
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
       {
-        test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'sass-loader'
-        ]
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'assets/[name][ext]' }
+      },
+      // Fonts
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'assets/[name][ext]' }
       }
     ]
   },
   optimization: {
+    minimize: process.env.NODE_ENV === 'production',
     minimizer: [
       new TerserPlugin({
         parallel: true,
-        cache: true, // v1 supports cache
         terserOptions: {
           output: { comments: false }
         }
       }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          discardDuplicates: { removeAll: true },
-          discardComments: { removeAll: true }
-        }
-      })
+      new CssMinimizerPlugin()
     ]
   },
   plugins: [
