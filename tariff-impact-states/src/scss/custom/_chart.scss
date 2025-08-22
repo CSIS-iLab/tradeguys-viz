@@ -1,6 +1,9 @@
 /*============================
 =            Chart           =
 ============================*/
+@use 'base/mixins' as *;
+@use 'base/variables' as *;
+
 section {
 }
 .chart {

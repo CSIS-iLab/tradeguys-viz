@@ -1,11 +1,12 @@
 /**
  * Mixins
  */
-
+@use 'sass:math';
+@use 'variables' as *;
 // Rem output with px fallback
-$browser-context: 16px;
+
 @function calculateRem($size) {
-  $remSize: $size / $browser-context;
+  $remSize: math.div($size, $browser-context);
   @return #{$remSize}rem;
 }
 

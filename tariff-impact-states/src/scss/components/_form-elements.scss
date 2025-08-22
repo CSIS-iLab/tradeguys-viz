@@ -1,6 +1,9 @@
 /*=====================================
 =            Form Elements            =
 =====================================*/
+@use 'base/mixins' as *;
+@use 'base/variables' as *;
+
 .legend-label {
   font-family: $font_inconsolata;
   &:before {

@@ -1,3 +1,6 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
 body {
   --breakpoint: 'xsmall';
   font-family: $font-source;
@@ -7,15 +10,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  @include breakpoint('small') {
+  @include breakpoint(small) {
     --breakpoint: 'small';
   }
 
-  @include breakpoint('medium') {
+  @include breakpoint(medium) {
     --breakpoint: 'medium';
   }
 
-  @include breakpoint('large') {
+  @include breakpoint(large) {
     --breakpoint: 'large';
   }
 }

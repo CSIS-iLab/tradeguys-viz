@@ -1,12 +1,12 @@
-@import 'base/mixins';
-@import 'base/variables';
-@import 'base/base';
+@use 'base/variables' as *;
+@use 'base/mixins' as *;
+@use 'base/base';
 
 /* ----------  Components  ---------- */
-@import 'components/tooltips';
-@import 'components/form-elements';
-// @import 'components/hint';
+@use 'components/tooltips';
+@use 'components/form-elements';
+// @use 'components/hint';
 
 /* ----------  Custom Components  ---------- */
-@import 'custom/chart';
-@import 'custom/layout';
+@use 'custom/chart';
+@use 'custom/layout';

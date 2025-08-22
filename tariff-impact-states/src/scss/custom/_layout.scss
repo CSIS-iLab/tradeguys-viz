@@ -1,6 +1,9 @@
 /*===================================
 =            Page Layout            =
 ===================================*/
+@use 'base/mixins' as *;
+@use 'base/variables' as *;
+
 body {
   > *:not(.tooltip):not(.chart) {
     max-width: $size-max-width;
