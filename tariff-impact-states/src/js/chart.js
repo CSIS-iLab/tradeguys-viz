@@ -552,44 +552,46 @@ function draw(data) {
     },
 
     states: {
-      mouseover(d) {
-        interactions.states.showTooltip(d)
+      // use pointer events if you can; mouse* also works
+      mouseover(event, d) {
+        interactions.states.showTooltip(event, d)
       },
-      mouseleave(d) {
+      mousemove(event, d) {
+        // optional but nice for tracking
+        interactions.states.showTooltip(event, d)
+      },
+      mouseleave(event, d) {
         tooltip.hide()
       },
-      click(d) {
+      click(event, d) {
         tooltip.hide()
         activeState = d
         container.call(chart.drawState, d)
       },
-      showTooltip(d) {
-        let tooltipContent = `
-        <p class="tooltip-heading">
-          ${d.state}
-        </p>
-        <p class="tooltip-body">
-          $${dollarFormatter(d.totaldollars).replace(
-            /G/,
-            'B'
-          )} Total Trade (2017)
-        </p>
-        <ul class="tooltip-list">
-        ${countries
-          .map(
-            c =>
-              `<li class="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}: ${
-                d[c] ? percentFormatter(d[c]) : 0
-              }%</li>`
-          )
-          .join('')}
-
-        </ul>
-        <p class="tooltip-footer">
-          ${percentFormatter(d.grandtotal)}% of Total (2017)
-        </p>
+      showTooltip(event, d) {
+        const tooltipContent = `
+          <p class="tooltip-heading">${d.state}</p>
+          <p class="tooltip-body">
+            $${dollarFormatter(d.totaldollars).replace(
+              /G/,
+              'B'
+            )} Total Trade (2017)
+          </p>
+          <ul class="tooltip-list">
+            ${countries
+              .map(
+                c =>
+                  `<li class="${c}">${c.charAt(0).toUpperCase() +
+                    c.slice(1)}: ${d[c] ? percentFormatter(d[c]) : 0}%</li>`
+              )
+              .join('')}
+          </ul>
+          <p class="tooltip-footer">${percentFormatter(
+            d.grandtotal
+          )}% of Total (2017)</p>
         `
-        tooltip.show(tooltipContent)
+        // pass the event through to the new tooltip.js
+        tooltip.show(tooltipContent, event)
       }
     }
   }
